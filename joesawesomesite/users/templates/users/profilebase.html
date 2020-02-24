@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>{{user.username}}'s World!</title>
   {% load static %}
-  <link rel="stylesheet" href="{%static 'css/landing-style.css' %}">
+  <link rel="stylesheet" href="{%static 'css/new-landing.css' %}">
   <link rel="stylesheet" href="{%static 'css/navbars.css' %}">
   <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
         integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
@@ -45,26 +45,28 @@
     </nav>
 
     <section id="summary">
-      <div class = text_container>
-        <div class = "text_background">
+      <div class = "sec-container container-profile-about">
           <h1>{{user.userprofile.first_name}} {{user.userprofile.last_name}}</h1>
           <p>{{user.userprofile.summary}}</p>
-        </div>
       </div>
     </section>
 
     <section id="lists">
-      <div class = text_container>
-        <div class = "text_background">
-          <h1>My Lists</h1>
-          <h2>Personal Lists</h2>
-          {%for personal_list in personal_lists%}
-            <p><a href="{%url 'personal_list_display' personal_list.list_id %}" rel="noopener noreferrer" target="_blank">{{personal_list.list_name}}</a></p>
-          {%endfor%}
-          <h2>Master Lists</h2>
-          {%for master_list in master_lists%}
-            <p><a href="{%url 'master_list_display' master_list.list_id %}" rel="noopener noreferrer" target="_blank">{{master_list.list_name}}</a></p>
-          {%endfor%}
+      <div class = "sec-container container-ranklists">
+        <h1>My Lists</h1>
+        <div class = "ranklists-grid">
+          <div class = "ranklists-item">
+            <h3>Personal Lists</h3>
+              {%for personal_list in personal_lists%}
+                <p><a href="{%url 'personal_list_display' personal_list.list_id %}" rel="noopener noreferrer" target="_blank">{{personal_list.list_name}}</a></p>
+              {%endfor%}
+          </div>
+          <div class = "ranklists-item">
+            <h3>Master Lists</h3>
+            {%for master_list in master_lists%}
+              <p><a href="{%url 'master_list_display' master_list.list_id %}" rel="noopener noreferrer" target="_blank">{{master_list.list_name}}</a></p>
+            {%endfor%}
+          </div>
         </div>
       </div>
     </section>
@@ -74,7 +76,8 @@
             $("#nav-left").toggleClass("active");
             $("#nav-right").toggleClass("active");
         });
-    $('.drop-btn').click(function(){
+    $('.drop-btn').click(function(event){
+            event.preventDefault();
             $('.dropdown').toggleClass("active");
      });
   </script>

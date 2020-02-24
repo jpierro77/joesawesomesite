@@ -71,7 +71,7 @@ section{
     height: 75vh;
 }
 
-.projects-grid{
+.projects-grid, .ranklists-grid{
     display: grid;
     width: 80%;
     margin-left: auto;
@@ -81,20 +81,32 @@ section{
     padding: 2rem;
 }
 
-.projects-grid h3{
+.projects-grid h3, .ranklists-grid h3{
     font-size: 2rem;
+    color: white;
+    text-transform: uppercase;
 }
 
-.projects-grid p{
+.projects-grid p, .ranklists-grid p{
     font-size: 1.2rem;
     text-align: left;
 }
 
-.project-item{
+.project-item, .ranklists-item{
     padding: 2rem;
     border: 2px solid black;
 }
-.ranklists{
+
+.ranklists-item{
+    overflow-y: scroll;
+    max-height: 40vh;
+}
+.ranklists-item p{
+    text-align: center;
+}
+
+.ranklists-item a{
+    text-transform: none;
 }
 
 .container-contact{
@@ -117,6 +129,9 @@ section{
     opacity: 0.5;
 }
 
+.ranklists-grid{
+
+}
 @media(max-width: 1200px){
     .projects-grid p{
         font-size: 1rem;
@@ -127,7 +142,7 @@ section{
 }
 
 @media(max-width: 1000px){
-    .projects-grid{
+    .projects-grid, .ranklists-grid{
         grid-template-columns: auto;
     }
     .container-projects h1{
@@ -150,7 +165,7 @@ section{
         border-radius: 0px;
     }
 
-    .projects-grid{
+    .projects-grid, .ranklists-grid{
         grid-template-columns: auto;
     }
     .container-projects h1{
