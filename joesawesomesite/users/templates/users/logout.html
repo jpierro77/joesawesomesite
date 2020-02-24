@@ -1,0 +1,19 @@
+{%extends "landing/base.html" %}
+{% block content %}
+    {%if messages%}
+    {% for message in messages%}
+    <div class="alert alert-{{message.tags}}">
+        {{message}}
+    </div>
+    {%endfor%}
+    {%endif%}
+    <h3>Logged Out</h3>
+    <div class="content-section">
+        <div class="border-top pt-3">
+            <small class="text-muted">Sign Back In <a class = "ml-2" href = "{% url 'login' %}">Sign In</a></small>
+        </div>
+        <div class="border-top pt-3">
+            <small class="text-muted">Back to Home Page <a class = "ml-2" href = "{% url 'index' %}">Home</a></small>
+        </div>
+    </div>
+{% endblock content %}

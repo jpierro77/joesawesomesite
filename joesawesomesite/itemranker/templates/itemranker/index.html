@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+	<title>Item Ranker</title>
+	<meta charset = "UTF-8">
+	<meta http-equiv = "X-UA-Compatible" content = "IE-edge">
+	<meta name = "viewport" content = "width=device-width, initial scale = 1.0 user-scalable=no">
+	<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+	{%load static%}
+	<link rel = "stylesheet" href = "{%static 'css/itemrankerstyle.css' %}">
+	<link rel = "stylesheet" href = "{%static 'css/navbars.css' %}">
+	<!--<link rel = "stylesheet" href = "https://bootswatch.com/4/darkly/bootstrap.min.css"> -->
+</head>
+<body>
+	<div class = "container mt-4">
+		<nav class="navbar relativenav">
+
+      <div class="toggle">
+        <i class="fa fa-bars menu" aria-hidden="true"></i>
+      </div>
+      <ul id = "nav-left">
+		  <li><a href="{%url 'index' %}">Home</a></li>
+		  <li><a href = "{%url 'caloriesindex' %}">Calorie Counter</a></li>
+	  </ul>
+      <ul id= "nav-right">
+        {% if request.user.is_authenticated %}
+         <li class="dropdown">
+                <a href = "#" class="drop-btn" target="blank">{{request.user.username}}<span class ="fa fa-angle-down"></span></a>
+                 <div class="dropdown-content">
+                     <a href="{%url 'user_profile' request.user.username%}">View Profile</a>
+                     <a href="{%url 'edit_profile'%}">Edit Profile</a>
+                     <a href="{%url 'logout'%}">Logout</a>
+                 </div>
+         </li>
+        {% else %}
+        <li><a href="{%url 'login'%}">Login</a></li>
+        <li><a href="{% url 'register'%}">Sign Up</a></li>
+        {%endif%}
+      </ul>
+    </nav>
+		<div id = "list_display">
+			<h3>Your List</h3>
+			<form method = "POST">
+			{%csrf_token%}
+				<div id = "display_container">
+					<table class = "table">
+						<thead>
+							<tr>
+								<th>Rank #</th>
+								<th>Item Name</th>
+								<th>Votes</th>
+								<th></th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody id = "item-list">
+
+						</tbody>
+					</table>
+				</div>
+				<p id = "list_buttons">
+					<button disabled id = "start-vote" class = "start-btn">Start Voting</button>
+					<button id = "new-list" style = "" class = "newlist-btn">New List</button>
+					<button id = "save-list" class = "save-btn" disabled>Save List</button>
+				</p>
+			</form>
+		</div>
+		<div id = "list_addition">
+			<h3>Information for your list</h3>
+			<form id ="type-chooser" class = "form-inputs">
+				<label for="listtitle">List Title</label>
+				<input type = "text" id = "listtitle" name = "listtitle" placeholder="ex: My Favorite Movies">
+				<label for = "listtype">List Type</label>
+				<select id = "listtype" name = "listtype" onChange = "UI.setListType()">
+					<option value = "personal">Personal List (only you can edit)</option>
+					<option value = "master">Master List(anyone can add/vote on)</option>
+				</select>
+			</form>
+			<div id = "item_add_container">
+				<h3>Add Items to the List</h3>
+				<form id = "item-add">
+					<div class="form-inputs">
+						<label for='Item'>Item Name:</label>
+						<input type = "text" id = "item" class = "form-control" required>
+						<input type = "submit" class = "btn btn-primary btn-block" value = "Add Item">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<script src = "https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+	{% load static %}
+	{%csrf_token%}
+	<script src = "{% static 'scripts/itemranker/itemranker-app.js' %}"></script>
+	<script>
+      $('.menu').click(function(){
+            $("#nav-left").toggleClass("active");
+            $("#nav-right").toggleClass("active");
+        });
+       $('.drop-btn').click(function(){
+            $('.dropdown').toggleClass("active");
+       });
+    </script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Joe P's World</title>
+  {% load static %}
+  <link rel="stylesheet" href="{%static 'css/navbars.css' %}">
+    <link rel="stylesheet" href="{%static 'css/new-landing.css' %}">
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+</head>
+<body>
+  <div class="container">
+    <nav class="navbar fixednav">
+
+      <div class="toggle">
+        <i class="fa fa-bars menu" aria-hidden="true"></i>
+      </div>
+      <ul id = "nav-left">
+        <li><a href="#about">About Me</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <ul id = "nav-right">
+        {% if request.user.is_authenticated %}
+        <li>
+           <div class="dropdown">
+                  <a href="#" class="drop-btn" target="blank">{{request.user.username}}<span class ="fa fa-angle-down"></span></a>
+                   <div class="dropdown-content">
+                       <a href="{%url 'user_profile' request.user.username%}">View Profile</a>
+                       <a href="{%url 'edit_profile'%}">Edit Profile</a>
+                       <a href = "{% url 'directories' %}">Directories</a>
+                       <a href="{%url 'logout'%}">Logout</a>
+                   </div>
+           </div>
+        </li>
+        {% else %}
+        <li><a href="{%url 'login'%}">Login</a></li>
+        <li><a href="{% url 'register'%}">Sign Up</a></li>
+        <li><a href = "{% url 'directories' %}">Directories</a></li>
+        {%endif%}
+      </ul>
+    </nav>
+      <section id = "about">
+          <div class="sec-container container-about">
+              <div class = "image-cover">
+
+              </div>
+              <h1>About Me</h1>
+              <p>
+                  Hi, I'm Joe Pierron and welcome to my professional website. Scroll down to view projects below or use
+                  the handy navbar.
+              </p>
+          </div>
+      </section>
+      <section id = "projects">
+          <div class = "sec-container container-projects">
+              <h1>Projects</h1>
+              <p>Have a look at some of my projects, and <a href="{%url 'login'%}">login</a> to access the features</p>
+              <div class = "projects-grid">
+                  <div class = "project-item ranklists">
+                      <h3><a href = "{%url 'itemranker' %}">Ranklists</a></h3>
+                      <p>Helps you rank your favorite items based on comparison of each. Name a category, make your list, and then vote to
+                        determine your favorites. Afterwards you can save the list to your profile, or post to twitter!</p>
+                  </div>
+                  <div class = "project-item calories">
+                      <h3><a href = "{%url 'caloriesindex' %}">Calorie Counter</a></h3>
+                      <p>Helps track your food and allows you to set weight management goals.</p>
+                  </div>
+              </div>
+          </div>
+      </section>
+      <section id = "contact">
+          <div class = "sec-container container-contact">
+              <h1>Contact</h1>
+              <div class = "contact-list">
+                  <a class = "contact-item fa fa-envelope" href = "mailto:jpierro@bgsu.edu"></a>
+                  <a class = "contact-item fa fa-github" href = "#"></a>
+                  <a class = "contact-item fa fa-linkedin" href = "http://linkedin.com/in/jpierro77"></a>
+              </div>
+          </div>
+      </section>
+  </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script>
+      $('.menu').click(function(){
+            $("#nav-left").toggleClass("active");
+            $("#nav-right").toggleClass("active");
+       });
+       $('.drop-btn').click(function(e){
+            e.preventDefault();
+            $('.dropdown').toggleClass("active");
+       });
+  </script>
+</body>

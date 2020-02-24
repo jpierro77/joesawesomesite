@@ -1,0 +1,223 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+body{
+    background-color: #b2b2b2;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #50394c;
+}
+section{
+    height: 100vh;
+}
+
+/*forms for adding food dates */
+#addDateForm {
+  display: none;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border: 3px solid #f1f1f1;
+  z-index: 9;
+  width: 50%;
+  padding: 10px;
+  background-color: #50394c;
+  color: white;
+  overflow: auto;
+}
+#food_list{
+    height: 350px;
+    margin-left: 5px;
+    margin-right: 5px%;
+    border: 1px solid gray;
+    text-align: center;
+    background-color: #b2b2b2;
+    overflow: auto;
+}
+
+ .food_item {
+  width: 35%;
+  height: 125px;
+  padding: 1rem;
+  margin: 1rem auto;
+  border: 1px solid gray;
+  background-color: #50394c;
+  display: inline-block;
+}
+
+.food-info-item input[type=text], .food-info-item input[type=number]{
+    width: 85%;
+    padding: 15px;
+    margin: 5px 0 22px 0;
+}
+.food_item_input{
+    display: inline-block;
+    position: absolute;
+}
+.food_item_display{
+   display: inline-block;
+   position: relative;
+   text-align: center
+}
+
+
+#date_label{
+    display: inline;
+    text-align: left;
+    margin-bottom: 15px;
+}
+
+#close_button_div{
+    text-align: right;
+}
+#close_button{
+    display: inline;
+    background-color: #50394c;
+    color: #ffef96;
+    border: 0;
+    font-size: 18px;
+}
+
+/*calendar and health container */
+#calendar_and_health_container{
+    margin-left: auto;
+    margin-right: auto;
+    width: 85%;
+}
+
+/*health profile section*/
+#health_info_form{
+    width: 35%;
+    border: 2px solid #f4e1d2;
+    border-radius: 10px;
+    background-color: #50394c;
+    display: inline-block;
+    margin-top: 20px;
+    margin-right: 50px;
+    color: #ffef96;
+}
+#health_info_form h2, #health_info_form h3{
+    text-align: center;
+    padding: 2rem;
+}
+#health_info_inputs_container{
+    display: block;
+}
+.form_row_section input[type=text], .form_row_section input[type=number], .form_row_section select{
+    padding: .5rem;
+    border: 2px solid black;
+    border-radius: 8px;
+
+}
+.form_row_section input[type=submit]{
+    border: 0;
+    padding: .5rem;
+    border-radius: 8px;
+    background-color: #ffef96;
+    font-style: bold;
+    font-size: 18px;
+    color: #50394c;
+}
+
+.form_row_section input[type=submit]:hover{
+    background-color: #b2b2b2;
+}
+#health_info_form label{
+    display: block;
+}
+.form_row{
+    display: block;
+    width: 100%;
+}
+.form_row_section{
+    display: inline-block;
+    padding: 25px;
+}
+
+#day_form_inputs{
+    text-align: center;
+    padding: 30px;
+}
+#day_form_inputs input[type=text], #day_form_inputs input[type=number]{
+
+    padding: .5rem;
+    border: 2px solid black;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+#day_form_buttons{
+    text-align: center;
+    padding: 50px;
+}
+
+#day_form_buttons button,.food_item_buttons button{
+    border: 0;
+    padding: .5rem;
+    border-radius: 8px;
+    background-color: #ffef96;
+    font-style: bold;
+    font-size: 18px;
+    color: #50394c;
+}
+/*calendar */
+#calendar_container{
+    display: inline-block;
+    position: absolute;
+    margin-top: 20px;
+    border: 2px solid #50394c;
+    padding: 15px;
+    background-color: #f4e1d2;
+    max-height: 100vh;
+    width: 50%;
+    margin-right: auto;
+}
+
+#calendar{
+    background-color: #f4e1d2;
+    max-height: 100vh;
+    width: auto;
+}
+
+#calorie_limit_display{
+    font-size: 64px;
+    color: #ffef96;
+    text-align: center;
+}
+
+
+#calorie_limit_container{
+    display: block;
+}
+
+/*small screen*/
+@media (max-width: 890px){
+    #health_info_form{
+        display: block;
+        width: 100%;
+        height: auto;
+    }
+    .form_row_section{
+        display: block;
+    }
+
+    .form_row_section input[type=text], .form_row_section input[type=number], .form_row_section select{
+        width: 85%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .form_row_section input[type=submit]{
+        width: 85%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    #calendar_container{
+        display: block;
+        margin-right: auto;
+        width: 80%;
+    }
+
+    #addDateForm{
+        width: 90%;
+    }
+}

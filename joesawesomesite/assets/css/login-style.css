@@ -1,0 +1,123 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+
+body{
+	font-family: Arial, Helvetica, sans-serif;
+	background: #b2b2b2;
+	color: #50394c;
+	line-height: 1.6;
+}
+
+.container{
+	width: 80%;
+	margin: 2rem auto;
+}
+
+
+section{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	width: 100%;
+	scroll-snap-align: center;
+}
+
+
+.form-inputs{
+    max-width: 100%;
+    margin: 2rem auto;
+    border: 2px solid;
+    padding: 2rem;
+    display: block;
+}
+
+.form-inputs input, textarea{
+    display: block;
+    width: 100%;
+    margin: .2rem auto;
+    padding: .5rem;
+    border: 2px solid #030624;
+    border-radius: 8px;
+    font-size: 16px;
+}
+.form-inputs ul{
+    padding: 1.5rem;
+    font-size: 14px;
+}
+
+.submit-btn {
+    border: 0;
+    padding: .8rem;
+    background: rgba(0, 0, 0, 0.7);
+    color: #f4f4f4;
+    text-transform: uppercase;
+    border-radius: 5px;
+    transition: .2s background ease;
+}
+
+.submit-btn:hover{
+     background: #030624;
+     cursor: pointer;
+}
+#ranklists_container{
+    display: inline-block;
+    width: 45%;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 40px;
+    background: #f4e1d2;
+    color: #50394c;
+    border: 3px solid #50394c;
+    border-radius: 20px;
+    text-align: center;
+    height: 550px;
+    float: left
+}
+
+#profiles_container{
+    display: inline;
+    width: 45%;
+    margin-right: auto;
+    margin-top: 40px;
+    margin-bottom: auto;
+    text-align: center;
+    background: #50394c;
+    color: #ffef96;
+    border: 3px solid #f4e1d2;
+    border-radius: 20px;
+    height: 550px;
+    float: right;
+}
+
+#profiles_container ul, ranklists_container ul{
+    overflow: auto;
+}
+
+#profiles_container a{
+    text-decoration: none;
+    color: #ffef96;
+    font-weight: bold;
+    font-size: 24px;
+}
+
+#ranklists_container a{
+    text-decoration: none;
+    color: #50394c;
+    font-weight: bold;
+    font-size: 24px;
+}
+
+@media (max-width: 768px){
+   #profiles_container, #ranklists_container{
+      display: block;
+      width: 90%;
+      margin-left: auto;
+      margin-right: auto;
+      float: none;
+    }
+
+}

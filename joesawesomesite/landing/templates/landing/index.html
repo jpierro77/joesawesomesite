@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Joe P's World</title>
+  {% load static %}
+  <link rel="stylesheet" href="{%static 'css/landing-style.css' %}">
+  <link rel="stylesheet" href="{%static 'css/navbars.css' %}">
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+</head>
+<body>
+  <div class="container">
+    <nav class="navbar fixednav">
+
+      <div class="toggle">
+        <i class="fa fa-bars menu" aria-hidden="true"></i>    
+      </div>
+      <ul id = "nav-left">
+        <li><a href="#home">About Me</a></li>
+        <li><a href="#project1">RankLists</a></li>
+        <li><a href="#project2">Calorie Counter</a></li>
+      </ul>
+      <ul id = "nav-right">
+        {% if request.user.is_authenticated %}
+        <li>
+           <div class="dropdown">
+                  <a href class="drop-btn">{{request.user.username}}<span class ="fa fa-angle-down"></span></a>
+                   <div class="dropdown-content">
+                       <a href="{%url 'user_profile' request.user.username%}">View Profile</a>
+                       <a href="{%url 'edit_profile'%}">Edit Profile</a>
+                       <a href = "{% url 'directories' %}">Directories</a>
+                       <a href="{%url 'logout'%}">Logout</a>
+                   </div>
+           </div>
+        </li>
+        {% else %}
+        <li><a href="{%url 'login'%}">Login</a></li>
+        <li><a href="{% url 'register'%}">Sign Up</a></li>
+        <li><a href = "{% url 'directories' %}">Directories</a></li>
+        {%endif%}
+      </ul>
+    </nav>
+
+    <section id="home">
+      <div class = "text_container">
+        <div class = "text_background">
+          <h1>About Me</h1>
+          <p>Hello theff, I'm Joe Pierron and this is my portfolio website, make sure you make an account, also scroll down to see some of the apps I have made for this site.</p>
+        </div>
+      </div>
+    </section>
+    <section id="project1">
+      <div class = text_container>
+        <div class = "text_background">
+          <h1>RankLists</h1>
+          <p>Helps you rank your favorite items based on comparison of each. Name a category, make your list, and then vote to
+            determine your favorites. Afterwards you can save the list to your profile, or post to twitter!
+          </p>
+          <p>Click <a href = "{% url 'itemranker' %}">HERE</a> to access this project</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="project2">
+      <div class = "text_container">
+        <div class = "text_background">
+          <h1>Calorie Counter</h1>
+          <p>Helps track your food and allows you to set weight management goals.</p>
+          <p>Click <a href = "{%url 'caloriesindex' %}">HERE</a> to begin your journey!</p>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script>
+      $('.menu').click(function(){
+            $("#nav-left").toggleClass("active");
+            $("#nav-right").toggleClass("active");
+       });
+
+  </script>
+</body>
+</html>

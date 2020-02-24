@@ -1,0 +1,25 @@
+{%extends "landing/base.html" %}
+{% block content %}
+<div id = "directory_containers">
+    <div id = "ranklists_container">
+        <h2>Master Ranklists</h2>
+        <ul id = "rank_lists">
+            {%for list in master_lists %}
+            <li>
+                <a href = "{%url 'master_list_display' list.list_id %}">{{list.list_name}} by {{list.user.username}}</a>
+            </li>
+            {%endfor%}
+        </ul>
+    </div>
+    <div id = "profiles_container">
+        <h2>User Profiles</h2>
+        <ul id = "profiles">
+            {% for profile in user_profiles %}
+            <li>
+                <a href = "{%url 'user_profile' profile.user.username %}">{{profile.user.username}}</a>
+            </li>
+            {%endfor%}
+        </ul>
+    </div>
+</div>
+{%endblock content%}

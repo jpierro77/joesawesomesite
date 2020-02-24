@@ -1,0 +1,47 @@
+{%extends "landing/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    {%if messages%}
+    {% for message in messages%}
+    <div class="alert alert-{{message.tags}}">
+        {{message}}
+    </div>
+    {%endfor%}
+    {%endif%}
+    <div class="form-label">
+        <h2>EDIT PROFILE</h2>
+    </div>
+    <form method="POST" action = "" class = "form-inputs">
+        {%csrf_token%}
+        <label for="first_name">First Name:</label>
+        <input type = "text" name = "first_name" value={{user.userprofile.first_name}}>
+        <label for="last_name">Last Name:</label>
+        <input type = "text" name = "last_name" value={{user.userprofile.last_name}}>
+        <label for="summary">About Me:</label>
+        <small>(Limit: 800 Characters)</small>
+        <textarea name="summary">{{user.userprofile.summary}}</textarea>
+        <div class="form-group">
+            <button class="submit-btn" type = "submit">
+                Save Profile
+            </button>
+        </div>
+    </form>
+    <h2>User Lists</h2>
+    <form method = "post" action = "{%url 'deleteranklist' %}" name = "formform">
+        {%csrf_token%}
+    <ul>
+        {%for personal_list in personal_lists%}
+        <li><input type = "checkbox" name="personal {{personal_list.list_id}}", value = "personal {{personal_list.list_id}}">{{personal_list.list_name}}</li>
+        {%endfor%}
+    </ul>
+     <ul>
+        {%for master_list in master_lists%}
+        <li><input type = "checkbox" name="master {{master_list.list_id}}", value = "master {{master_list.list_id}}">{{master_list.list_name}}</li>
+        {%endfor%}
+     </ul>
+         <button class="submit-btn" type = "submit">
+                Delete Selected Lists
+         </button>
+    </form>
+    <small>Want to make a new list? <a href = "{%url 'itemranker' %}">Create a new list</a></small>
+{%endblock content%}

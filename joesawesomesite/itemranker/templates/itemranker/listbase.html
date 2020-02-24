@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name = "viewport" content = "width=device-width, initial scale = 1.0 user-scalable=no">
+    <title>{{list_name}} by {{list_author}}</title>
+    {%load static%}
+    {% load extras %}
+    <link rel="stylesheet" href="{%static 'css/ranklist-style.css'%}">
+    <link rel="stylesheet" href="{%static 'css/navbars.css' %}">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+</head>
+<body>
+    <nav class="navbar relativenav">
+      <div class="toggle">
+        <i class="fa fa-bars menu" aria-hidden="true"></i>
+      </div>
+      <ul id = "nav-left">
+        <li><a href="{%url 'index' %}">Home</a></li>
+        <li><a href = "{%url 'caloriesindex' %}">Calorie Counter</a></li>
+        <li><a href="{%url 'itemranker' %}">Rank Lists</a></li>
+      </ul>
+      <ul id = "nav-right">
+        {% if request.user.is_authenticated %}
+         <li class="dropdown">
+                <a href class="drop-btn">{{request.user.username}}<span class ="fa fa-angle-down"></span></a>
+                 <div class="dropdown-content">
+                     <a href="{%url 'user_profile' request.user.username%}">View Profile</a>
+                     <a href="{%url 'edit_profile'%}">Edit Profile</a>
+                     <a href="{%url 'logout'%}">Logout</a>
+                 </div>
+         </li>
+        {% else %}
+        <li><a href="{%url 'login'%}">Login</a></li>
+        <li><a href="{% url 'register'%}">Sign Up</a></li>
+        {%endif%}
+      </ul>
+    </nav>
+    <div id = "list_container">
+        <h2>{{list_name}} by {{list_author}}</h2>
+        <table>
+            <thead>
+                <th>Rank</th>
+                <th>Item Name</th>
+                <th>Votes</th>
+                {% if list_type == 'master' %}
+                <th></th>
+                {%endif%}
+            </thead>
+            {% if list_type == 'master' %}
+            {%for item in list%}
+            <tr>
+                <td>{{list|get_index:item}}</td>
+                <td>{{item.item_name}}</td>
+                <td>{{item.votes}}</td>
+                <td>
+                    <form>
+                        <button class = "vote_btn" formaction = "{%url 'add_vote' item_id=item.id master_list_id=item.master_list_id %}">Vote</button>
+                    </form>
+                </td>
+            </tr>
+            {%endfor%}
+            {%endif%}
+            {% if list_type == 'personal' %}
+            {%for item in list%}
+            <tr>
+                <td>{{item.rank}}</td>
+                <td>{{item.item_name}}</td>
+                <td>{{item.votes}}</td>
+            </tr>
+            {%endfor%}
+            {%endif%}
+        </table>
+        {% if list_type == 'personal' %}
+        <form method = "POST">
+            {% csrf_token %}
+            <input type = "hidden" name = "imageId" value = "{{listInfo.list_id}}">
+            <input type = "submit"  onClick = "event.preventDefault(); post_to_twitter()" value = "Post to Twitter">
+        </form>
+        {%endif%}
+        {% if list_type == 'master' %}
+        <form method = "post" action = "{%url 'add_item' master_list_id=list_id %}">
+            {% csrf_token %}
+            <input type = "text" placeholder = "Add an item to the list" name = "item_name">
+            <input type = "submit" value = "Add Item">
+        </form>
+        {% endif %}
+    </div>
+<script type = "text/javascript" src = "{%static 'html2canvas/html2canvas.min.js'%}"></script>
+<script
+          src="https://code.jquery.com/jquery-3.4.1.min.js"
+          integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+          crossorigin="anonymous">
+
+</script>
+<script>
+    function post_to_twitter(){
+        html2canvas(document.getElementById("list_container")).then(function(canvas) {
+            var dataUrl = canvas.toDataURL();
+            $.ajax({
+                url: "{%url 'twitterpost' %}",
+                type: "POST",
+                data: {
+                    imgBase64: dataUrl,
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+                },
+
+                success: function(data){
+                    window.open(data.url);
+                },
+                error : function(xhr,errmsg,err) {
+                    console.log(xhr.status + ": " + xhr.responseText);
+                    alert("Failed to make post!");
+                }
+            });
+
+        });
+    }
+    $('.menu').click(function(){
+        $("#nav-left").toggleClass("active");
+        $("#nav-right").toggleClass("active");
+    });
+</script>
+</body>
+</html>

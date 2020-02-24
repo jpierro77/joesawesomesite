@@ -1,0 +1,30 @@
+{%extends "landing/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    {%if messages%}
+    {% for message in messages%}
+    <div class="alert alert-{{message.tags}}">
+        {{message}}
+    </div>
+    {%endfor%}
+    {%endif%}
+         <div class="form-label">
+             <h2>LOGIN</h2>
+         </div>
+        <form method="POST" class = "form-inputs">
+            {%csrf_token%}
+
+            <label for="username">Username</label>
+            <input type="text" name="username">
+            <label for="password">Password</label>
+            <input type="password" name="password">
+            <div class="form-group">
+                <button class="submit-btn" type = "submit">
+                    Sign In
+                </button>
+            </div>
+        </form>
+        <div class="border-top pt-3">
+            <small class="text-muted">Need to make an account? <a class = "ml-2" href = "{%url 'register'%}">Sign Up</a></small>
+        </div>
+{% endblock content %}

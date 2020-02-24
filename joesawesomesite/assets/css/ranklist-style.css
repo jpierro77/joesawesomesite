@@ -1,0 +1,104 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+body{
+    background-color: #b2b2b2;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #50394c;
+}
+#list_container{
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+    border: 3px solid black;
+    text-align: center;
+}
+#list_container table {
+  border-collapse: collapse;
+  border: 3px solid black;
+  text-align: center;
+  width: 100%;
+}
+#list_container h2{
+    text-align: center;
+    color: white;
+    background-color: #50394c;
+}
+th{
+    border: 2px solid gray;
+    background-color: white;
+}
+thead{
+    background-color: white;
+}
+tr{
+    height: auto;
+    text-align: center;
+}
+tr:nth-child(even){
+  background-color: #f4e1d2;
+}
+tr:nth-child(odd){
+    background-color: #ffef96;
+}
+
+tr:hover{
+    background-color: #b2b2b2;
+}
+.container{
+    width: 100%;
+    text-align: center;
+}
+
+.rank_list_item{
+    padding: 1rem;
+}
+
+.item_rank{
+    display: inline
+}
+
+.item_name{
+    display: inline;
+}
+
+.item_votes{
+    display: inline;
+}
+
+.vote_btn{
+    text-decoration: none;
+    padding: 0.5rem;
+    border-radius: 20px;
+    border: none;
+    background-color: #50394c;
+    color: white;
+}
+.vote_btn:hover{
+    background-color: #DDA0DD;
+}
+
+input{
+    display: block;
+    padding: .5rem;
+    border-radius: 10px;
+    border: none;
+    width: 35%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+input[type="submit"]{
+    background-color: #50394c;
+    color: white;
+
+}
+
+input[type="submit"]:hover{
+    background-color: #DDA0DD;
+}

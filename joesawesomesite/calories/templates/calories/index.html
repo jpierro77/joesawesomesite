@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Calorie Counter Home Page</title>
+    {% load static %}
+    <link href="{% static 'jscalendar/packages/core/main.css' %}" rel="stylesheet" />
+    <link href="{% static 'jscalendar/packages/daygrid/main.css' %}" rel="stylesheet" />
+    <link href="{% static 'jscalendar/packages/list/main.css' %}" rel="stylesheet" />
+    <link href="{% static 'jscalendar/packages/interaction/main.css' %}" rel="stylesheet" />
+    <link href = "{% static 'css/caloriecounterstyle.css' %}" rel = "stylesheet" />
+    <link rel="stylesheet" href="{%static 'css/navbars.css' %}">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+    <script src="{% static 'jscalendar/packages/core/main.js' %}"></script>
+    <script src="{% static 'jscalendar/packages/daygrid/main.js' %}"></script>
+    <script src="{% static 'jscalendar/packages/list/main.js' %}"></script>
+    <script src="{% static 'jscalendar/packages/interaction/main.js' %}"></script>
+
+</head>
+<body>
+    <nav class="navbar relativenav">
+
+      <div class="toggle">
+        <i class="fa fa-bars menu" aria-hidden="true"></i>
+      </div>
+      <ul id = "nav-left">
+        <li><a href="{%url 'index' %}">Home</a></li>
+        <li><a href="{%url 'itemranker' %}">Rank Lists</a></li>
+      </ul>
+      <ul id = "nav-right">
+        {% if request.user.is_authenticated %}
+         <li class="dropdown">
+                <a href="#" class="drop-btn" target="blank">{{request.user.username}}<span class ="fa fa-angle-down"></span></a>
+                 <div class="dropdown-content">
+                     <a href="{%url 'user_profile' request.user.username%}">View Profile</a>
+                     <a href="{%url 'edit_profile'%}">Edit Profile</a>
+                     <a href="{%url 'logout'%}">Logout</a>
+                 </div>
+         </li>
+        {% else %}
+        <li><a href="{%url 'login'%}">Login</a></li>
+        <li><a href="{% url 'register'%}">Sign Up</a></li>
+        {%endif%}
+      </ul>
+    </nav>
+    <section id = "calendar_and_health">
+        <div id = "calendar_and_health_container">
+    {%if request.user.is_authenticated %}
+    {% else %}
+    <h4>Please <a href = "{%url 'login_redirect'%}">log in</a> to save your health profile</h4>
+    {% endif %}
+    <div id = "health_info_form">
+        <h2>Your Health Profile</h2>
+    <div id = "health_info_inputs_container">
+    <form method = "POST" action = "updatehealth/">
+        {%csrf_token%}
+        <div class = "form_row">
+            <div class="form_row_section">
+                <label for = "weight">Weight(lbs)</label>
+                <input type = "number" name = "weight" value = "{{data.weight}}" required>
+            </div>
+            <div class="form_row_section">
+                <label for = "height">Height(inches)</label>
+                <input type = "number" name = "height" value = "{{data.height}}" required>
+            </div>
+        </div>
+        <div class = "form_row">
+            <div class="form_row_section">
+                <label for="age">Age</label>
+                <input type = "number" name = "age" value = "{{data.age}}" required>
+            </div>
+            <div class="form_row_section">
+                <label for="gender">Gender</label>
+                <select name = "gender" required>
+                    <option value = "m">
+                        M
+                    </option>
+                    <option value = "f">
+                        F
+                    </option>
+                </select>
+            </div>
+        </div>
+        <div class="form_row">
+            <div class="form_row_section">
+                <label for ="activity_level">Physical Activity Level</label>
+                <select name = activity_level required>
+                    <option value = "1.3" {% if data.activity_level == 1.3 %} selected {% endif %}> Very Light</option>
+                    <option value = "1.55" {% if data.activity_level == 1.55 %} selected {% endif %}>Light</option>
+                    <option value = "1.65" {% if data.activity_level == 1.65 %} selected {% endif %}>Moderate</option>
+                    <option value = "1.8" {% if data.activity_level == 1.8 %} selected {% endif %}>Heavy</option>
+                    <option value = "2.0" {% if data.activity_level == 2.0 %} selected {% endif %}>Very Heavy</option>
+                </select>
+            </div>
+            <div class = "form_row_section">
+                <label for = "lbs_per_week_goal">lbs Per Week</label>
+                <input type = "number" name = "lbs_per_week_goal" value = {{data.lbs_per_week_goal}}>
+            </div>
+        </div>
+        <div class = "form_row">
+            <div class="form_row_section">
+                <input type = "submit" value = "Save Health Profile">
+            </div>
+        </div>
+    </form>
+    </div>
+    <div id = "calorie_limit_container">
+        <h2>Daily Calorie Limit:</h2>
+        <p id = "calorie_limit_display">{{daily_limit}} cal</p>
+    </div>
+    </div>
+    <div id = "calendar_container">
+    {% if request.user.is_authenticated %}
+    <div id = "calendar">
+
+    </div>
+    {% else %}
+    <h4>Please <a href = "{%url 'login_redirect' %}">log in</a> to edit the calendar</h4>
+    <div id="calendar-unselectable">
+
+    </div>
+    {% endif %}
+    </div>
+    <div id = "addDateForm">
+        <div id = "date_form_top">
+            <div id = "close_button_div">
+                <button id = "close_button" onClick='event.preventDefault(); UI.close_form();'>X</button>
+            </div>
+            <p id = "date_label"></p>
+        </div>
+        <form id = "day-form">
+
+            {%csrf_token%}
+            <input type = "date" name = "date"  hidden>
+            <input type = "hidden" name = "daily_limit">
+            <div id = "food_list">
+            </div>
+            <div id = "day_form_inputs" style = "display: none">
+                <div class = 'food_item_props'>
+                    <input type = 'text' name = 'foodname' id = 'food_name_input' placeholder = 'food name ex: bread'>
+                    <input type = 'number' name = 'calories' id = 'calorie_input' placeholder = '# calories'>
+                 </div>
+                 <div class = 'food_item_buttons'>
+                    <button id = 'save_food_btn' onClick = "event.preventDefault(); UI.save_food($('#food_name_input').val(), $('#calorie_input').val(), 'new')">Add</button>
+                    <button class = 'remove_food_btn' onClick = 'event.preventDefault(); UI.close_edit()'>Cancel</button>
+                 </div>
+            </div>
+            <div id = "day_form_buttons">
+                <button id = "new-food" onClick = 'event.preventDefault(); UI.open_edit()'>New Food</button>
+                <button id = "save-day" onClick = 'event.preventDefault(); UI.save_day()'>Save Day</button>
+            </div>
+
+        </form>
+    </div>
+        </div>
+    </section>
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+			  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+			  crossorigin="anonymous"></script>
+<script>
+      $('.menu').click(function(){
+            $("#nav-left").toggleClass("active");
+            $("#nav-right").toggleClass("active");
+        });
+      $('.drop-btn').click(function(){
+            $('.dropdown').toggleClass("active");
+       });
+</script>
+<script src = "{% static 'scripts/calories/DayForm.js' %}"></script>
+<script src = "{% static 'scripts/calories/Calendar.js' %}"></script>
+<script id = "days-data" type = "application/json">{{days|safe}}</script>
+<script id = "daily-limit" type = "application/json">{{daily_limit}}</script>
+<script id = "user-authenticated" type = "application/json">{{request.user.is_authenticated}}</script>
+</body>
+</html>
