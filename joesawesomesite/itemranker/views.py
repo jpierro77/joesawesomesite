@@ -1,4 +1,4 @@
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, Http404
 from django.shortcuts import redirect, render
 from django.conf import settings
 from django.core.files.base import ContentFile
@@ -186,38 +186,44 @@ def savelist(request):
 def personal_list_display(request, list_id_arg=0):
     if list_id_arg > 0:
         personal_list = PersonalList.objects.filter(list_id=list_id_arg).first()
-        return render(request, 'itemranker/listbase.html', {
-            'list_name': personal_list.list_name,
-            'list_type': 'personal',
-            'list_author': personal_list.user.username,
-            'list': json.loads(personal_list.list_json)
-            })
+        if personal_list is not None:
+            return render(request, 'itemranker/listbase.html', {
+                'list_name': personal_list.list_name,
+                'list_type': 'personal',
+                'list_author': personal_list.user.username,
+                'list': json.loads(personal_list.list_json)
+                })
+        else:
+            raise Http404("List Does Not Exist")
     else:
         return redirect('itemranker')
 
 
 def master_list_display(request, list_id_arg=0):
     if list_id_arg > 0:
-        master_list = MasterList.objects.filter(list_id=list_id_arg).first()
-        master_list_sorted = list(MasterItem.objects.filter(master_list=master_list))
-        for i in range(0, len(master_list_sorted)-1):
-            swapped = False
-            for j in range(0, len(master_list_sorted)-i-1):
-                if master_list_sorted[j].votes < master_list_sorted[j+1].votes:
-                    swapped = True
-                    temp = master_list_sorted[j]
-                    master_list_sorted[j] = master_list_sorted[j+1]
-                    master_list_sorted[j+1] = temp
+            master_list = MasterList.objects.filter(list_id=list_id_arg).first()
+            if master_list is not None:
+                master_list_sorted = list(MasterItem.objects.filter(master_list=master_list))
+                for i in range(0, len(master_list_sorted)-1):
+                    swapped = False
+                    for j in range(0, len(master_list_sorted)-i-1):
+                        if master_list_sorted[j].votes < master_list_sorted[j+1].votes:
+                            swapped = True
+                            temp = master_list_sorted[j]
+                            master_list_sorted[j] = master_list_sorted[j+1]
+                            master_list_sorted[j+1] = temp
 
-            if not swapped:
-                break
-        return render(request, 'itemranker/listbase.html', {
-            'list_type': 'master',
-            'list_name': master_list.list_name,
-            'list_author': master_list.user.username,
-            'list_id': master_list.list_id,
-            'list': master_list_sorted
-        })
+                    if not swapped:
+                        break
+                return render(request, 'itemranker/listbase.html', {
+                    'list_type': 'master',
+                    'list_name': master_list.list_name,
+                    'list_author': master_list.user.username,
+                    'list_id': master_list.list_id,
+                    'list': master_list_sorted
+                })
+            else:
+                raise Http404("List Does Not Exist")
     else:
         return redirect('itemranker')
 

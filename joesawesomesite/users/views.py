@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login as userlogin
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.http import Http404
 from django.contrib import messages
 from django.shortcuts import redirect
 from django.contrib.auth.models import User
@@ -61,6 +62,9 @@ def user_profile(request, username=""):
         user = request.user
     else:
         user = User.objects.filter(username=username).first()
+        if user is None:
+            raise Http404("User doesn't exist!")
+
     print(user.id)
     personal_lists = PersonalList.objects.filter(user=user)
     master_lists = MasterList.objects.filter(user=user)
