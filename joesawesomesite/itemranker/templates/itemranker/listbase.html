@@ -38,40 +38,42 @@
       </ul>
     </nav>
     <div id = "list_container">
-        <h2>{{list_name}} by {{list_author}}</h2>
-        <table>
-            <thead>
-                <th>Rank</th>
-                <th>Item Name</th>
-                <th>Votes</th>
+        <div id = "list_display">
+            <h2>{{list_name}} by {{list_author}}</h2>
+            <table>
+                <thead>
+                    <th>Rank</th>
+                    <th>Item Name</th>
+                    <th>Votes</th>
+                    {% if list_type == 'master' %}
+                    <th></th>
+                    {%endif%}
+                </thead>
                 {% if list_type == 'master' %}
-                <th></th>
+                {%for item in list%}
+                <tr>
+                    <td>{{list|get_index:item}}</td>
+                    <td>{{item.item_name}}</td>
+                    <td>{{item.votes}}</td>
+                    <td>
+                        <form>
+                            <button class = "vote_btn" formaction = "{%url 'add_vote' item_id=item.id master_list_id=item.master_list_id %}">Vote</button>
+                        </form>
+                    </td>
+                </tr>
+                {%endfor%}
                 {%endif%}
-            </thead>
-            {% if list_type == 'master' %}
-            {%for item in list%}
-            <tr>
-                <td>{{list|get_index:item}}</td>
-                <td>{{item.item_name}}</td>
-                <td>{{item.votes}}</td>
-                <td>
-                    <form>
-                        <button class = "vote_btn" formaction = "{%url 'add_vote' item_id=item.id master_list_id=item.master_list_id %}">Vote</button>
-                    </form>
-                </td>
-            </tr>
-            {%endfor%}
-            {%endif%}
-            {% if list_type == 'personal' %}
-            {%for item in list%}
-            <tr>
-                <td>{{item.rank}}</td>
-                <td>{{item.item_name}}</td>
-                <td>{{item.votes}}</td>
-            </tr>
-            {%endfor%}
-            {%endif%}
-        </table>
+                {% if list_type == 'personal' %}
+                {%for item in list%}
+                <tr>
+                    <td>{{item.rank}}</td>
+                    <td>{{item.item_name}}</td>
+                    <td>{{item.votes}}</td>
+                </tr>
+                {%endfor%}
+                {%endif%}
+            </table>
+        </div>
         {% if list_type == 'personal' %}
         <form method = "POST">
             {% csrf_token %}
@@ -96,7 +98,7 @@
 </script>
 <script>
     function post_to_twitter(){
-        html2canvas(document.getElementById("list_container")).then(function(canvas) {
+        html2canvas(document.getElementById("list_display")).then(function(canvas) {
             var dataUrl = canvas.toDataURL();
             $.ajax({
                 url: "{%url 'twitterpost' %}",
